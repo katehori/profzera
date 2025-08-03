@@ -1,0 +1,49 @@
+/posts:
+  get:
+    tags: [Posts]
+    summary: Lista de posts públicos
+    description: Retorna uma lista paginada de posts publicados
+    parameters:
+      - $ref: '../../openapi.yaml#/components/parameters/page'
+      - $ref: '../../openapi.yaml#/components/parameters/limit'
+    responses:
+      200:
+        description: Lista de posts
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/post.yaml'
+            example:
+              - id: 1
+                title: "Título do post"
+                author: "Prof. Nome e Sobrenome"
+                created_at: "2023-07-20T10:00:00Z"
+
+  post:
+    tags: [Posts]
+    summary: Cria novo post
+    description: Rota protegida para professores
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/PostCreate'
+          example:
+            title: "Novo post"
+            content: "Conteúdo detalhado..."
+    responses:
+      201:
+        description: Post criado com sucesso
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/Post'
+      401:
+        $ref: '../schemas/error.yaml#/components/responses/Unauthorized'
+      403:
+        $ref: '../schemas/error.yaml#/components/responses/Forbidden'

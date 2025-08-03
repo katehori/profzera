@@ -1,0 +1,74 @@
+# =======================================
+# DEPENDENCIES AND BUILD FILES
+# =======================================
+node_modules/
+npm-debug.log
+yarn-error.log
+.pnpm-debug.log
+dist/
+build/
+.coverage/
+.out/
+.next/
+
+# =======================================
+# ENVIRONMENT AND SENSITIVE CONFIGS
+# =======================================
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env*.local
+
+# =======================================
+# DOCKER AND DATABASES
+# =======================================
+docker-compose.override.yml
+data/
+postgres_data/
+*.dump
+*.backup
+
+# =======================================
+# IDE/EDITOR FILES
+# =======================================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# =======================================
+# SYSTEM AND TEMPORARY FILES
+# =======================================
+tmp/
+temp/
+*.tmp
+*.temp
+
+# =======================================
+# TESTS AND COVERAGE
+# =======================================
+coverage/
+.nyc_output/
+jest.config.js
+*.lcov
+
+# =======================================
+# LOGS
+# =======================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# =======================================
+# MIGRATIONS AND SEEDS (KNEX)
+# =======================================
+# Uncomment if you want to ignore compiled migrations/seeds
+# src/db/migrations/*.js
+# src/db/seeds/*.js

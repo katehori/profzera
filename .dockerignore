@@ -1,0 +1,55 @@
+# =======================================
+# Dependency directories
+# =======================================
+node_modules/
+npm-debug.log
+yarn-error.log
+.pnpm-debug.log
+
+# =======================================
+# Environment and configuration files
+# =======================================
+.env
+.env.*
+!.env.example
+
+# =======================================
+# Version control and IDE files
+# =======================================
+.git/
+.gitignore
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# =======================================
+# Build and output directories
+# =======================================
+dist/
+build/
+coverage/
+.out/
+.next/
+
+# =======================================
+# Database files and backups
+# =======================================
+postgres_data/
+*.dump
+*.backup
+
+# =======================================
+# Docker files
+# =======================================
+docker-compose.override.yml
+docker-compose.prod.yml
+
+# =======================================
+# Test and debug files
+# =======================================
+*.log
+logs/
+jest.config.js
+.nyc_output/
