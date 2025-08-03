@@ -142,12 +142,15 @@ src/
 #### Recursos específicos
 
 **Migrations**
+
 [Knex Migrations](https://knexjs.org/guide/migrations.html)
 
 **Configuração do Jest**
+
 [Jest Configuration](https://jestjs.io/docs/configuration)
 
 **Autenticação JWT**
+
 [jsonwebtoken npm](https://www.npmjs.com/package/jsonwebtoken)
 
 

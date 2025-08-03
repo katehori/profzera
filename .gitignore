@@ -69,6 +69,6 @@ lerna-debug.log*
 # =======================================
 # MIGRATIONS AND SEEDS (KNEX)
 # =======================================
-# Uncomment if you want to ignore compiled migrations/seeds
+# TODO: Uncomment if you want to ignore compiled migrations/seeds
 # src/db/migrations/*.js
 # src/db/seeds/*.js
