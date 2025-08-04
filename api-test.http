@@ -1,0 +1,31 @@
+### GET request to example server
+GET localhost:8080/api/posts
+Content-Type: application/json
+
+### Send POST request with json body
+POST localhost:8080/api/posts
+Content-Type: application/json
+
+{
+  "title": "Olá Mundo",
+  "content": "Esse é um teste inicial",
+  "author": "Kate"
+}
+
+### Send PUT request with json body
+GET localhost:8080/api/posts/1
+Content-Type: application/json
+
+### Send PUT request with json body
+PUT localhost:8080/api/posts/1
+Content-Type: application/json
+
+{
+  "title": "Adeus Mundo",
+  "content": "Esse é um teste final",
+  "author": "Kate"
+}
+
+### Send DELETE request
+DELETE localhost:8080/api/posts/1
+Content-Type: application/json
