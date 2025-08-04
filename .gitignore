@@ -65,10 +65,3 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
-
-# =======================================
-# MIGRATIONS AND SEEDS (KNEX)
-# =======================================
-# TODO: Uncomment if you want to ignore compiled migrations/seeds
-# src/db/migrations/*.js
-# src/db/seeds/*.js

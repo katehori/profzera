@@ -7,7 +7,7 @@ const cors = require('cors');
 const setupSwagger = require('./config/swagger');
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.NODE_PORT || 8080;
 
 setupSwagger(app);
 

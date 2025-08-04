@@ -60,19 +60,19 @@ npx knex seed:run
 
 Crie um arquivo .env baseado no .env.example:
 ```ini
-NODE_ENV=development
-PORT=8080
+NODE_ENV=
+NODE_PORT=
 
 # Banco de Dados
-DB_HOST=localhost
-DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=postgres
-DB_NAME=profzera_db
+DB_HOST=
+DB_PORT=
+DB_USER=
+DB_PASSWORD=
+DB_NAME=
 
 # Autenticação
-JWT_SECRET=secret
-JWT_EXPIRES_IN=1d
+JWT_SECRET=
+JWT_EXPIRES_IN=
 ```
 
 
