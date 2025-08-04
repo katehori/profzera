@@ -61,10 +61,10 @@ npx knex seed:run
 Crie um arquivo .env baseado no .env.example:
 ```ini
 NODE_ENV=development
-PORT=3000
+PORT=8080
 
 # Banco de Dados
-DB_HOST=localhost
+DB_HOST=postgresdb
 DB_PORT=5432
 DB_USER=postgres
 DB_PASSWORD=postgres
@@ -188,7 +188,7 @@ Content-Type: application/json
 }  
 ```
 
-🔗 [Documentação completa no Swagger UI](http://localhost:3000/api-docs)
+🔗 [Documentação completa no Swagger UI](http://localhost:8080/api-docs)
 
 ### Testes
 

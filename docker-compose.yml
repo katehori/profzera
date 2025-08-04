@@ -4,16 +4,14 @@ services:
   # PostgreSQL service
   postgresdb:
     container_name: profzera_db
-    image: postgres:14.18
+    image: postgres:13
     ports:
-      # Maps container port 5432 to host port 5432
       - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=profzera_db
     volumes:
-      # Data persistence volume
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
 
@@ -24,7 +22,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "8080:8080"
     volumes:
       - ./backend:/usr/src/profzera-app
       - /usr/src/app/node_modules
@@ -39,18 +37,18 @@ services:
       - postgresdb
     restart: unless-stopped
 
-    # Frontend React
-    frontend:
-      container_name: profzera_frontend
-      build:
-        context: ./frontend
-        dockerfile: Dockerfile
-      ports:
-        - "5173:5173"
-      volumes:
-        - ./frontend:/app
-        - /app/node_modules
-      restart: unless-stopped
+  # Frontend React
+  frontend:
+    container_name: profzera_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    restart: unless-stopped
 
 volumes:
   postgres_data:

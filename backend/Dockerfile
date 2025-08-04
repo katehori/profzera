@@ -9,12 +9,13 @@ COPY package*.json ./
 
 # Install project dependencies
 RUN npm install
+RUN npm install yamljs
 
 # Copy the rest of the application source code to the working directory
 COPY . .
 
-# Expose the port your application listens on (e.g., 3000 for a web server)
-EXPOSE 3000
+# Expose the port your application listens on (e.g., 8080 for a web server)
+EXPOSE 8080
 
 # Define the command to run your application when the container starts
 CMD ["npm", "run", "dev"]

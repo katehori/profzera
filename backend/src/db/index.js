@@ -41,10 +41,10 @@ const testConnection = async () => {
   try {
     const client = await pool.connect();
     const { rows } = await client.query('SELECT NOW() as current_time, current_database() as db_name');
-    console.log(`✅ PostgreSQL conectado | DB: ${rows[0].db_name} | Hora: ${rows[0].current_time}`);
+    console.log(`PostgreSQL conectado | DB: ${rows[0].db_name} | Hora: ${rows[0].current_time}`);
     client.release();
   } catch (err) {
-    console.error('❌ Erro na conexão com PostgreSQL:', {
+    console.error('Erro na conexão com PostgreSQL:', {
       message: err.message,
       code: err.code,
       stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
@@ -62,7 +62,7 @@ if (process.env.NODE_ENV !== 'test') {
 // Export with improved error handling
 module.exports = {
   query: (text, params) => {
-    console.debug(`📌 Executando query: ${text.substring(0, 50)}...`);
+    console.debug(`Executando query: ${text.substring(0, 50)}...`);
     return pool.query(text, params).catch(err => {
       console.error('Erro na query:', {
         query: text,
@@ -77,7 +77,7 @@ module.exports = {
     // Patch to correctly release the client
     const originalRelease = client.release.bind(client);
     client.release = () => {
-      console.debug('🔄 Liberando conexão do pool');
+      console.debug('Liberando conexão do pool');
       originalRelease();
     };
     return client;
