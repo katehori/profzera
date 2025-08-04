@@ -4,8 +4,8 @@
 
 // const healthRoute = require('./src/controllers/HealthRoute');
 // const postsRoute = require('./src/controllers/Post');
-// const errorHandler = require('./src/config/errorHandler');
-// const requestLogger = require('./src/config/requestLogger');
+// const errorHandler = require('./config/errorHandler');
+// const requestLogger = require('./config/requestLogger');
 // const { pool, configure } = require('./config/dbConfig')
 
 // const app = express();

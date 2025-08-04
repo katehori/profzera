@@ -64,7 +64,7 @@ NODE_ENV=development
 PORT=8080
 
 # Banco de Dados
-DB_HOST=postgresdb
+DB_HOST=localhost
 DB_PORT=5432
 DB_USER=postgres
 DB_PASSWORD=postgres
