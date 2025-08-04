@@ -3,7 +3,7 @@
     tags: [Posts]
     summary: Busca post por ID
     parameters:
-      - $ref: '../../openapi.yaml#/components/parameters/postId'
+      - $ref: '../openapi.yaml#/components/parameters/postId'
     responses:
       200:
         description: Detalhes completos do post
@@ -24,7 +24,7 @@
     security:
       - bearerAuth: []
     parameters:
-      - $ref: '../../openapi.yaml#/components/parameters/postId'
+      - $ref: '../openapi.yaml#/components/parameters/postId'
     requestBody:
       required: true
       content:
@@ -47,7 +47,7 @@
     security:
       - bearerAuth: []
     parameters:
-      - $ref: '../../openapi.yaml#/components/parameters/postId'
+      - $ref: '../openapi.yaml#/components/parameters/postId'
     responses:
       204:
         description: Post removido com sucesso

@@ -1,5 +1,4 @@
 const { Pool } = require('pg');
-require('dotenv').config();
 
 const getDbConfig = () => {
   // If DATABASE_URL (Render) exists, use as priority
@@ -37,33 +36,35 @@ const getDbConfig = () => {
 const pool = new Pool(getDbConfig());
 
 // Connection test
-const testConnection = async () => {
+const testConnection = async pool => {
+  const client = await pool.connect();
   try {
-    const client = await pool.connect();
     const { rows } = await client.query('SELECT NOW() as current_time, current_database() as db_name');
     console.log(`PostgreSQL conectado | DB: ${rows[0].db_name} | Hora: ${rows[0].current_time}`);
+  } finally {
     client.release();
-  } catch (err) {
-    console.error('Erro na conexão com PostgreSQL:', {
-      message: err.message,
-      code: err.code,
-      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
-    });
-    // Closes the application if it fails to connect
-    process.exit(1);
   }
 };
 
 // Run test only if not in test (Jest/Mocha)
 if (process.env.NODE_ENV !== 'test') {
-  testConnection();
+  testConnection(pool)
+    .catch(err => {
+      console.error('Erro na conexão com PostgreSQL:', {
+        message: err.message,
+        code: err.code,
+        stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+      });
+      // Closes the application if it fails to connect
+      process.exit(1);
+    })
 }
 
 // Export with improved error handling
 module.exports = {
-  query: (text, params) => {
+  query: async (text, params) => {
     console.debug(`Executando query: ${text.substring(0, 50)}...`);
-    return pool.query(text, params).catch(err => {
+    return await pool.query(text, params).catch(err => {
       console.error('Erro na query:', {
         query: text,
         params,
@@ -71,16 +72,6 @@ module.exports = {
       });
       throw err;
     });
-  },
-  getClient: async () => {
-    const client = await pool.connect();
-    // Patch to correctly release the client
-    const originalRelease = client.release.bind(client);
-    client.release = () => {
-      console.debug('Liberando conexão do pool');
-      originalRelease();
-    };
-    return client;
   },
   // For advanced transactions
   pool

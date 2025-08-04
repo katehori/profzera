@@ -1,8 +1,8 @@
 const Post = require('../models/Post');
 
 class PostController {
-  constructor(knex) {
-    this.postModel = new Post(knex);
+  constructor(db) {
+    this.postModel = new Post(db);
   }
 
   // listPosts (PUBLIC)
@@ -35,8 +35,7 @@ class PostController {
   // createPost (only for teachers)
   async createPost(req, res) {
     try {
-      const { title, content } = req.body;
-      const author = req.user.name; // Assume autenticação JWT
+      const { title, content, author } = req.body;
       const newPost = await this.postModel.create({ title, content, author });
       res.status(201).json(newPost);
     } catch (error) {
@@ -65,16 +64,17 @@ class PostController {
   }
 
   // listAllPosts (ADMIN)
-  async listAllPosts(req, res) {
-    try {
-      const posts = await this.postModel.getAllAdmin();
-      res.json(posts);
-    } catch (error) {
-      res.status(500).json({
-        error: 'Erro ao buscar posts'
-      });
-    }
-  }
+  // TODO: Not used, FIX KNEX
+  // async listAllPosts(req, res) {
+  //   try {
+  //     const posts = await this.postModel.getAllAdmin();
+  //     res.json(posts);
+  //   } catch (error) {
+  //     res.status(500).json({
+  //       error: 'Erro ao buscar posts'
+  //     });
+  //   }
+  // }
 
   // deletePost (only for teachers)
   async deletePost(req, res) {
@@ -92,21 +92,22 @@ class PostController {
   }
 
   // searchPosts
-  async searchPosts(req, res) {
-    try {
-      const { term: searchTerm } = req.query;
-      if (!searchTerm) return res.status(400).json({
-        error: 'Termo de busca necessário'
-      });
-      
-      const results = await this.postModel.search(searchTerm);
-      res.json(results);
-    } catch (error) {
-      res.status(500).json({
-        error: 'Erro na busca'
-      });
-    }
-  }
+  // TODO: FIX KNEX
+  // async searchPosts(req, res) {
+  //   try {
+  //     const { term: searchTerm } = req.query;
+  //     if (!searchTerm) return res.status(400).json({
+  //       error: 'Termo de busca necessário'
+  //     });
+  //
+  //     const results = await this.postModel.search(searchTerm);
+  //     res.json(results);
+  //   } catch (error) {
+  //     res.status(500).json({
+  //       error: 'Erro na busca'
+  //     });
+  //   }
+  // }
 }
 
 module.exports = PostController;

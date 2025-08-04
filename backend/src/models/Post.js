@@ -1,64 +1,58 @@
 class Post {
-  constructor(knex) {
-    this.knex = knex;
+  constructor(db) {
+    this.db = db;
   }
 
   // getAll (PUBLIC)
   async getAll() {
-    return this.knex('posts')
-      .where('is_published', true)
-      .select('id', 'title', 'author', 'created_at');
+    const newVar = await this.db.query('SELECT * FROM post ORDER BY id DESC');
+    return newVar.rows;
   }
 
   // getById
   async getById(id) {
-    return this.knex('posts')
-      .where({ id, is_published: true })
-      .first();
+    return await this.db.query('SELECT * FROM post WHERE id = ?', [id]).rows[0] ?? null;
   }
 
   // create
   async create({ title, content, author }) {
-    return this.knex('posts')
-      .insert({ title, content, author })
-      .returning('*');
+    return await this.db.query(
+      'INSERT INTO post (title, author, content) VALUES (?, ?, ?) RETURNING *',
+      [title, author, content]
+    ).rows[0] ?? null;
   }
 
   // update
   async update(id, { title, content }) {
-    return this.knex('posts')
-      .where({ id })
-      .update({ 
-        title, 
-        content,
-        updated_at: this.knex.fn.now() 
-      })
-      .returning('*');
+    return await this.db.query(
+      'UPDATE post SET title = ?, content = ? WHERE id = ? RETURNING *',
+      [title, content, id]
+    ).rows[0] ?? null;
   }
 
+  // TODO: FIX KNEX
   // getAllAdmin - List all posts as admin (teachers)
-  async getAllAdmin() {
-    return this.knex('posts')
-      .select('*');
-  }
+  // async getAllAdmin() {
+  //   return this.knex('posts')
+  //     .select('*');
+  // }
 
   // delete
   async delete(id) {
-    return this.knex('posts')
-      .where({ id })
-      .del();
+    return await this.db.query('DELETE FROM post WHERE id = ?', [id]).rowCount;
   }
 
+  // TODO: FIX KNEX
   // search by term
-  async search(term) {
-    return this.knex('posts')
-      .where('is_published', true)
-      .andWhere(function() {
-        this.where('title', 'ilike', `%${term}%`)
-          .orWhere('content', 'ilike', `%${term}%`);
-      })
-      .select('id', 'title', 'author', 'created_at');
-  }
+  // async search(term) {
+  //   return this.knex('posts')
+  //     .where('is_published', true)
+  //     .andWhere(function() {
+  //       this.where('title', 'ilike', `%${term}%`)
+  //         .orWhere('content', 'ilike', `%${term}%`);
+  //     })
+  //     .select('id', 'title', 'author', 'created_at');
+  // }
 }
 
 module.exports = Post;
