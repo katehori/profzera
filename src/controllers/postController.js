@@ -36,7 +36,6 @@ exports.createPost = async (req, res) => {
   const { title, content, author } = req.body;
 
   try {
-    console.log(title, content, author);
     const newPost = await PostModel.createPost({ title, content, author });
     res.status(201).json(newPost);
   } catch (error) {
@@ -67,11 +66,11 @@ exports.updatePost = async (req, res) => {
 }
 
 // DELETE /posts/:id
-exports.deletePost = async (req, res) => {
+exports.deletePostById = async (req, res) => {
   const id = req.params.id
 
   try {
-    const post = await PostModel.deletePost(id);
+    const post = await PostModel.deletePostById(id);
 
     if (!post) return res.status(404).json({
       error: 'Post não encontrado'

@@ -5,14 +5,12 @@ const Post = {
   // GET /posts
   getAllPosts: async () => {
     const result = await db.query('SELECT * FROM post ORDER BY id DESC');
-    console.log(result);
     return result.rows;
   },
 
   // GET /posts/:id
   getPostById: async id => {
     const result = await db.query('SELECT * FROM post WHERE id = $1', [id]);
-    console.log(result);
     return result.rows[0] ?? null;
   },
 
@@ -22,7 +20,6 @@ const Post = {
       'INSERT INTO post (title, author, content) VALUES ($1, $2, $3) RETURNING *',
       [title, author, content]
     );
-    console.log(result);
     return result.rows[0] ?? null;
   },
 
@@ -32,14 +29,12 @@ const Post = {
       'UPDATE post SET title = $1, content = $2 WHERE id = $3 RETURNING *',
       [title, content, id]
     );
-    console.log(result);
     return result.rows[0] ?? null;
   },
 
   // DELETE /posts/:id
-  deletePost: async id => {
+  deletePostById: async id => {
     const result = await db.query('DELETE FROM post WHERE id = $1', [id]);
-    console.log(result);
     return result.rowCount;
   }
 

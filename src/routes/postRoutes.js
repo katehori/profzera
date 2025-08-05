@@ -32,7 +32,7 @@ router.delete('/:id',
   // TODO FIX NO AUTH MIDDLEWARE
   // authenticate,
   // authorize('teacher'),
-  postController.deletePost
+  postController.deletePostById
 );
 
 // Route admin to see all posts

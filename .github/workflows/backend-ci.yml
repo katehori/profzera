@@ -7,21 +7,16 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  test-coverage:
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:17
-        env:
-          DB_USER: admin
-          DB_PASSWORD: Senha@123
-          DB_NAME: profzera_db
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Check out code
+      uses: actions/checkout@v4
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
@@ -31,15 +26,11 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Run tests
-      env:
-        DB_HOST: localhost
-        DB_PORT: 5432
-        DB_USER: admin
-        DB_PASSWORD: Senha@123
-        DB_NAME: profzera_db
-        NODE_ENV: test
-      run: npm test
-
-    - name: Build Docker image
-      run: docker build -t profzera-app .
+    - name: Run tests with coverage
+      uses: ArtiomTr/jest-coverage-report-action@v2.1.2
+      id: coverage
+      with:
+        annotations: none
+        package-manager: npm
+        test-script: npm test:coverage
+        icons: emoji
