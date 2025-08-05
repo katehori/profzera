@@ -1,7 +1,7 @@
 {
   "name": "profzera-backend",
   "version": "1.0.0",
-  "description": "Aplicação Node.js com Express e PostgreSQL usando Docker",
+  "description": "Aplicação backend desenvolvida em Node.js com Express, utilizando PostgreSQL como banco de dados relacional, containerização com Docker para a garantia de consistência entre ambientes. Implementação de Swagger/OpenAPI para documentação e testes em Jest.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
