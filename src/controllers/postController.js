@@ -12,7 +12,7 @@ exports.searchPosts = async (req, res) => {
     res.status(200).json(results);
   } catch (error) {
     res.status(500).json({
-      error: 'Erro na busca'
+      error: 'Erro ao buscar os posts que conntenham o termo pesquisado'
     });
   }
 }
@@ -57,7 +57,7 @@ exports.getPostById = async (req, res) => {
     res.status(200).json(postById);
   } catch (error) {
     res.status(500).json({
-      error: 'Erro ao buscar post'
+      error: 'Erro ao buscar post pelo ID'
     });
   }
 }
@@ -96,7 +96,7 @@ exports.deletePostById = async (req, res) => {
     res.status(204).send();
   } catch (error) {
     res.status(500).json({
-      error: 'Erro ao deletar post'
+      error: 'Erro ao excluir post'
     });
   }
 }

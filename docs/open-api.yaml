@@ -29,7 +29,7 @@ paths:
       operationId: getPost
       responses:
         '200':
-          description: Sucesso
+          description: Sucesso ao retornar todos os posts
           content:
             application/json:
               schema:
@@ -89,7 +89,7 @@ paths:
                   example: Prof. Nome e Sobrenome
       responses:
         '201':
-          description: Sucesso
+          description: Sucesso ao criar o post
           content:
             application/json:
               schema:  
@@ -141,7 +141,7 @@ paths:
             type: integer
       responses:
         '200':
-          description: Sucesso
+          description: Sucesso ao retornar o post pelo ID
           content:
             application/json:
               schema:
@@ -171,7 +171,7 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: "Erro ao buscar post"
+                    example: "Erro ao buscar post pelo ID"
                   statusCode:
                     type: integer
                     example: 500
@@ -213,7 +213,7 @@ paths:
                   example: Prof. Nome e Sobrenome
       responses:
         '201':
-          description: Sucesso
+          description: Sucesso ao atualizar o post
           content:
             application/json:
               schema:  
@@ -248,6 +248,84 @@ paths:
                   error:
                     type: string
                     example: "Erro ao atualizar post"
+                  statusCode:
+                    type: integer
+                    example: 500
+    delete:
+      tags:
+        - post
+      summary: Deleta um post pelo ID
+      description: Deleta um único post pelo ID
+      operationId: deletePostById
+      parameters:
+        - name: postId
+          in: path
+          description: ID do post
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Sucesso ao excluir o post (no content)
+        '404':
+          description: Post não encontrado
+        default:
+          description: Erro inesperado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro ao excluir post"
+                  statusCode:
+                    type: integer
+                    example: 500
+  /posts/search:
+    get:
+      tags:
+        - post
+      summary: Lista um ou mais posts com o termo pesquisado
+      description: Retorna um ou mais posts que contenham o termo pesquisado
+      operationId: searchPostByTerm
+      parameters:
+        - name: term
+          in: query
+          description: Termo de busca
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sucesso ao pesquisar e listar posts que contenham o termo pesquisado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example:
+                  - id: 1
+                    title: "Título com TERMO"
+                    content: "Conteúdo com TERMO"
+                    author: "Prof. Nome e Sobrenome"
+                  - id: 2
+                    title: "Título com TERMO"
+                    content: "Conteúdo com TERMO"
+                    author: "Prof. Nome e Sobrenome"
+        '400':
+          description: Termo(s) de busca necessário(s)
+        default:
+          description: Erro inesperado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro ao buscar os posts que conntenham o termo pesquisado"
                   statusCode:
                     type: integer
                     example: 500
