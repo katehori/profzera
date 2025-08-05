@@ -26,8 +26,7 @@ Content-Type: application/json
 
 {
   "title": "Adeus Mundo",
-  "content": "Esse é um teste final",
-  "author": "Kate"
+  "content": "Esse é um teste final"
 }
 
 ### Send DELETE request to delete a post by id

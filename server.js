@@ -1,17 +1,21 @@
 require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
+
+const requestLogger = require("./config/requestLogger");
+const setupSwagger = require('./config/swagger');
+const migrations = require('./src/migrations');
+
 const postRoutes = require('./src/routes/postRoutes');
 const healthRoutes = require('./src/routes/healthRoutes');
-const migrations = require('./src/migrations');
 const db = require('./src/db');
-const setupSwagger = require('./config/swagger');
 
 const app = express();
 const PORT = process.env.NODE_PORT || 8080;
 
 app.use(cors());
 app.use(express.json());
+app.use(requestLogger);
 
 setupSwagger(app);
 
