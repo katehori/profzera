@@ -5,7 +5,7 @@ services:
   postgresdb:
     container_name: profzera_db
     image: postgres:17.4
-    hostname: profzeradb-hostname
+    hostname: ${DB_HOST}
     ports:
       - "5432:5432"
     environment:
