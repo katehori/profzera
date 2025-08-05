@@ -72,7 +72,6 @@ DB_NAME=
 
 # Autenticação
 JWT_SECRET=
-JWT_EXPIRES_IN=
 ```
 
 
