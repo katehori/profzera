@@ -53,6 +53,7 @@ Implementação de Swagger/OpenAPI para documentação e testes em Jest.
 git clone https://github.com/katehori/profzera.git
 ```
 
+---
 
 ### Variáveis de ambiente
 
@@ -78,6 +79,7 @@ DB_NAME=
 JWT_SECRET=
 ```
 
+---
 
 ### Docker
 
@@ -113,6 +115,8 @@ docker-compose up -d postgresdb_ou_profzera-backend
 docker-compose up -d postgresdb
 ```
 
+---
+
 ### Comandos
 
 ```bash
@@ -126,6 +130,7 @@ npm run dev
 npm run build
 ```
 
+---
 
 ### Guia de uso das APIs
 
@@ -167,6 +172,7 @@ Content-Type: application/json
 |---------|-----------------------------------------|-----------------------------------------|
 | Postman | Teste de APIs                           | https://www.postman.com/                |
 
+---
 
 ### Testes
 
@@ -190,6 +196,7 @@ npm test -- PostController.test.js
 | Jest      | Framework de testes                    | https://jestjs.io/docs/getting-started  |
 
 
+---
 
 ### Documentação
 
@@ -204,7 +211,7 @@ Configuração via `swagger-jsdoc` e `swagger-ui-express`, integrada ao middlewa
 | Swagger UI | Documentação interativa de APIs        | https://swagger.io/tools/swagger-ui/ |
 | OpenAPI    | Especificação de APIs                  | https://www.openapis.org/            |
 
-
+---
 
 ### CI e CD com Deploy em Cloud do Render
 
@@ -222,6 +229,7 @@ Deploy no [Render](https://profzera.onrender.com)
 | Git     | Controle de versão                      | https://git-scm.com/doc                 |
 | Dotenv  | Gerenciamento de variáveis de ambiente  | https://www.npmjs.com/package/dotenv    |
 
+---
 
 ### Contribuição
 
@@ -230,3 +238,5 @@ Deploy no [Render](https://profzera.onrender.com)
 3. Commit suas mudanças `git commit -m 'Mensagem descrevendo a nova funcionalidade'`
 4. Push para a branch `git push origin feature/nova-funcionalidade`
 5. Abra um Pull Request
+
+---
