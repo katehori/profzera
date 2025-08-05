@@ -12,7 +12,7 @@ Content-Type: application/json
   "author": "Kate"
 }
 
-### Send PUT request with json body
+### Send GET request by id
 GET localhost:8080/api/posts/1
 Content-Type: application/json
 
@@ -26,6 +26,6 @@ Content-Type: application/json
   "author": "Kate"
 }
 
-### Send DELETE request
+### Send DELETE request by id
 DELETE localhost:8080/api/posts/1
 Content-Type: application/json

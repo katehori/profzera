@@ -1,36 +1,46 @@
 const db = require('../db');
 
-class Post {
+const Post = {
+
   // GET /posts
-  async getAllPosts() {
-    const allPosts = await db.query('SELECT * FROM post ORDER BY id DESC');
-    return allPosts.rows;
-  }
+  getAllPosts: async () => {
+    const result = await db.query('SELECT * FROM post ORDER BY id DESC');
+    console.log(result);
+    return result.rows;
+  },
 
   // GET /posts/:id
-  async getPostById(id) {
-    return await db.query('SELECT * FROM post WHERE id = ?', [id]).rows[0] ?? null;
-  }
+  getPostById: async id => {
+    const result = await db.query('SELECT * FROM post WHERE id = $1', [id]);
+    console.log(result);
+    return result.rows[0] ?? null;
+  },
 
   // POST /posts
-  async createPost({ title, content, author }) {
-    return await db.query(
-      'INSERT INTO post (title, author, content) VALUES (?, ?, ?) RETURNING *',
+  createPost: async ({ title, content, author }) => {
+    const result = await db.query(
+      'INSERT INTO post (title, author, content) VALUES ($1, $2, $3) RETURNING *',
       [title, author, content]
-    ).rows[0] ?? null;
-  }
+    );
+    console.log(result);
+    return result.rows[0] ?? null;
+  },
 
   // PUT /posts/:id
-  async updatePost(id, { title, content }) {
-    return await db.query(
-      'UPDATE post SET title = ?, content = ? WHERE id = ? RETURNING *',
+  updatePost: async (id, { title, content }) => {
+    const result = await db.query(
+      'UPDATE post SET title = $1, content = $2 WHERE id = $3 RETURNING *',
       [title, content, id]
-    ).rows[0] ?? null;
-  }
+    );
+    console.log(result);
+    return result.rows[0] ?? null;
+  },
 
   // DELETE /posts/:id
-  async deletePost(id) {
-    return await db.query('DELETE FROM post WHERE id = ?', [id]).rowCount;
+  deletePost: async id => {
+    const result = await db.query('DELETE FROM post WHERE id = $1', [id]);
+    console.log(result);
+    return result.rowCount;
   }
 
   // GET /posts/search

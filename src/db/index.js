@@ -68,9 +68,9 @@ module.exports = {
       console.error('Erro na query:', {
         query: text,
         params,
-        error: err.message
+        error: err.message,
+        stack: err.stack
       });
-      throw err;
     });
   },
   // For advanced transactions

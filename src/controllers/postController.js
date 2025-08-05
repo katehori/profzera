@@ -34,10 +34,10 @@ exports.getPostById = async (req, res) => {
 // POST /posts
 exports.createPost = async (req, res) => {
   const { title, content, author } = req.body;
-  const post = new PostModel({ title, content, author });
 
   try {
-    const newPost = await post.createPost();
+    console.log(title, content, author);
+    const newPost = await PostModel.createPost({ title, content, author });
     res.status(201).json(newPost);
   } catch (error) {
     res.status(500).json({
@@ -49,10 +49,10 @@ exports.createPost = async (req, res) => {
 // PUT /posts/:id
 exports.updatePost = async (req, res) => {
   const id = req.params.id
-  const body = req.body
+  const { title, content } = req.body
 
   try {
-    const updatedPost = await PostModel.updatePost( id, body );
+    const updatedPost = await PostModel.updatePost(id, { title, content });
 
     if (!updatedPost) return res.status(404).json({
       error: 'Post não encontrado'
