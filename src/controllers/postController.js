@@ -1,17 +1,5 @@
 const PostModel = require('../models/Post')
 
-// GET /posts
-exports.getAllPosts = async (req, res) => {
-  try {
-    const posts = await PostModel.getAllPosts();
-    res.status(200).json(posts);
-  } catch (error) {
-    res.status(500).json({
-      error: 'Erro ao buscar todos os posts'
-    });
-  }
-}
-
 // GET /posts/search
 exports.searchPosts = async (req, res) => {
   const { term: searchTerm } = req.query;
@@ -25,6 +13,32 @@ exports.searchPosts = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: 'Erro na busca'
+    });
+  }
+}
+
+// GET /posts
+exports.getAllPosts = async (req, res) => {
+  try {
+    const posts = await PostModel.getAllPosts();
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({
+      error: 'Erro ao buscar todos os posts'
+    });
+  }
+}
+
+// POST /posts
+exports.createPost = async (req, res) => {
+  const { title, content, author } = req.body;
+
+  try {
+    const newPost = await PostModel.createPost({ title, content, author });
+    res.status(201).json(newPost);
+  } catch (error) {
+    res.status(500).json({
+      error: 'Erro ao criar post'
     });
   }
 }
@@ -44,20 +58,6 @@ exports.getPostById = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: 'Erro ao buscar post'
-    });
-  }
-}
-
-// POST /posts
-exports.createPost = async (req, res) => {
-  const { title, content, author } = req.body;
-
-  try {
-    const newPost = await PostModel.createPost({ title, content, author });
-    res.status(201).json(newPost);
-  } catch (error) {
-    res.status(500).json({
-      error: 'Erro ao criar post'
     });
   }
 }

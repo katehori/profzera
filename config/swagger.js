@@ -1,15 +1,10 @@
-const { DocumentBuilder, SwaggerModule } = require('@nestjs/swagger');
+const YAML = require('yamljs');
+const path = require('path');
+const swaggerUi = require('swagger-ui-express');
+const openapiPath = path.join(__dirname, '../docs/openapi.yaml');
+const specs = YAML.load(openapiPath);
 
-const config = new DocumentBuilder()
-  .setTitle('Documentação das APIs do ProfZera backend')
-  .setDescription(`
-    API completa para gestão de posts acadêmicos.
-    - Rotas públicas: Listagem e leitura de posts
-    - Rotas protegidas: Criação/edição (somente para professores, requer autenticação)
-  `)
-  .setVersion('1.0')
-  .addTag('post')
-  .build();
-
-const document = SwaggerModule.createDocument(app, config)
-SwaggerModule.setup('api', document)
+module.exports = (app) => {
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+  app.get('/openapi.json', (req, res) => res.json(specs));
+};
