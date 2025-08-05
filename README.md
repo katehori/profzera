@@ -8,8 +8,8 @@ O ProfZera é um blog moderno e descomplicado para alunos e professores da rede 
 
 ### Pré-requisitos
 
-[![Node.js](https://img.shields.io/badge/Node.js-18+-green?logo=node.js)](https://nodejs.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13+-blue?logo=postgresql)](https://www.postgresql.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-20+-green?logo=node.js)](https://nodejs.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17+-blue?logo=postgresql)](https://www.postgresql.org/)
 
 ---
 
@@ -28,8 +28,8 @@ O ProfZera é um blog moderno e descomplicado para alunos e professores da rede 
 
 ## Pré-requisitos
 
-- [Node.js 18+](https://nodejs.org/en/download/)
-- [PostgreSQL 13+](https://www.postgresql.org/download/)
+- [Node.js 20+](https://nodejs.org/en/download/)
+- [PostgreSQL 17+](https://www.postgresql.org/download/)
 - [Docker](https://docs.docker.com/get-docker/)
 
 ### Instalação
