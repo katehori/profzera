@@ -9,9 +9,14 @@ jobs:
   test-coverage:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
     - name: Check out code
       uses: actions/checkout@v4
+      with:
+        ref: ${{ github.head_ref }}
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -28,7 +33,7 @@ jobs:
       run: npx js-coverage-badges badges_output
 
     - name: Commit and push badges
-      uses: stefanzweifel/git-auto-commit-action@v5
+      uses: stefanzweifel/git-auto-commit-action@v6
       with:
         commit_message: "docs: Update test coverage badges"
         branch: ${{ github.ref_name }}
