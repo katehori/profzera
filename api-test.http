@@ -1,8 +1,8 @@
-### GET request to example server
+### Send GET request to get all posts
 GET localhost:8080/api/posts
 Content-Type: application/json
 
-### Send POST request with json body
+### Send POST request with json body to create post
 POST localhost:8080/api/posts
 Content-Type: application/json
 
@@ -12,11 +12,15 @@ Content-Type: application/json
   "author": "Kate"
 }
 
-### Send GET request by id
+### Send GET request to get post by id
 GET localhost:8080/api/posts/1
 Content-Type: application/json
 
-### Send PUT request with json body
+### Send GET request to search post by term
+GET localhost:8080/api/posts/search?term=Olá adeus
+Content-Type: application/json
+
+### Send PUT request to update a post with json body by id
 PUT localhost:8080/api/posts/1
 Content-Type: application/json
 
@@ -26,6 +30,6 @@ Content-Type: application/json
   "author": "Kate"
 }
 
-### Send DELETE request by id
+### Send DELETE request to delete a post by id
 DELETE localhost:8080/api/posts/1
 Content-Type: application/json

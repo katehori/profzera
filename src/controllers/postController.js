@@ -12,6 +12,23 @@ exports.getAllPosts = async (req, res) => {
   }
 }
 
+// GET /posts/search
+exports.searchPosts = async (req, res) => {
+  const { term: searchTerm } = req.query;
+  if (!searchTerm || !searchTerm.trim()) return res.status(400).json({
+    error: 'Termo(s) de busca necessário(s)'
+  });
+  try {
+    const keywords = searchTerm.split(' ').filter(Boolean);
+    const results = await PostModel.searchPosts(keywords);
+    res.status(200).json(results);
+  } catch (error) {
+    res.status(500).json({
+      error: 'Erro na busca'
+    });
+  }
+}
+
 // GET /posts/:id
 exports.getPostById = async (req, res) => {
   const id = req.params.id
@@ -83,34 +100,3 @@ exports.deletePostById = async (req, res) => {
     });
   }
 }
-
-// GET /posts/search
-// TODO: FIX KNEX
-// exports.searchPosts = async (req, res) => {
-//   try {
-//     const { term: searchTerm } = req.query;
-//     if (!searchTerm) return res.status(400).json({
-//       error: 'Termo de busca necessário'
-//     });
-//
-//     const results = await PostModel.searchPosts(searchTerm);
-//     res.json(results);
-//   } catch (error) {
-//     res.status(500).json({
-//       error: 'Erro na busca'
-//     });
-//   }
-// }
-
-// listAllPosts (ADMIN)
-// TODO: Not used, FIX KNEX
-// exports.listAllPosts = async (req, res) => {
-//   try {
-//     const posts = await PostModel.getAllAdmin();
-//     res.json(posts);
-//   } catch (error) {
-//     res.status(500).json({
-//       error: 'Erro ao buscar posts'
-//     });
-//   }
-// }

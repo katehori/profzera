@@ -36,26 +36,13 @@ const Post = {
   deletePostById: async id => {
     const result = await db.query('DELETE FROM post WHERE id = $1', [id]);
     return result.rowCount;
-  }
+  },
 
   // GET /posts/search
-  // TODO: FIX KNEX
-  // async searchPosts(term) {
-  //   return this.knex('posts')
-  //     .where('is_published', true)
-  //     .andWhere(function() {
-  //       this.where('title', 'ilike', `%${term}%`)
-  //         .orWhere('content', 'ilike', `%${term}%`);
-  //     })
-  //     .select('id', 'title', 'author', 'created_at');
-  // }
-
-  // TODO: FIX KNEX
-  // getAllAdmin - List all posts as admin (teachers)
-  // async getAllAdmin() {
-  //   return this.knex('posts')
-  //     .select('*');
-  // }
+  searchPosts: async keywords => {
+    const result = await db.query('SELECT * FROM post WHERE searchable_text @@ to_tsquery($1)', [keywords.join(' | ')]);
+    return result.rows;
+  }
 }
 
 module.exports = Post;
