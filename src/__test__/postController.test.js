@@ -17,6 +17,10 @@ const mockResponse = {
 
 describe('Get All Posts', () => {
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  })
+
   it('should return list of posts', async () => {
     const mockPostsInDB = []
     PostModel.getAllPosts.mockResolvedValue(mockPostsInDB)
@@ -43,6 +47,7 @@ describe('Get All Posts', () => {
 describe('Get Post by ID', () => {
 
   beforeEach(() => {
+    jest.clearAllMocks();
     mockRequest.params = { id: 1 };
   })
 
@@ -82,6 +87,7 @@ describe('Get Post by ID', () => {
 describe('Create Post', () => {
 
   beforeEach(() => {
+    jest.clearAllMocks();
     mockRequest.body = {
       title: 'title',
       content: 'content',
@@ -115,6 +121,7 @@ describe('Create Post', () => {
 describe('Update Post', () => {
 
   beforeEach(() => {
+    jest.clearAllMocks();
     mockRequest.params = { id: 1 };
     mockRequest.body = {
       title: 'title',
@@ -157,6 +164,7 @@ describe('Update Post', () => {
 
 describe('Delete Post', () => {
   beforeEach(() => {
+    jest.clearAllMocks();
     mockRequest.params = { id: 1 };
   })
 
@@ -194,6 +202,10 @@ describe('Delete Post', () => {
 })
 
 describe('Search Post', () => {
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  })
 
   it("should return the post by search term", async () => {
     mockRequest.query = { term: 'title' };
