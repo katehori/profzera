@@ -11,6 +11,10 @@ O ProfZera é um blog moderno e descomplicado para alunos e professores da rede 
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green?logo=node.js)](https://nodejs.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17+-blue?logo=postgresql)](https://www.postgresql.org/)
 
+### Cobertura
+![Statements](./badges_output/statements_chart.svg) ![Branches](./badges_output/branches_chart.svg) ![Functions](./badges_output/functions_chart.svg) ![Lines](./badges_output/lines_chart.svg)
+
+
 ---
 
 ## 🚀 Índice
