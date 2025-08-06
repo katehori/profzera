@@ -79,7 +79,7 @@ describe('Get Post by ID', () => {
 
     expect(PostModel.getPostById).toHaveBeenCalledWith(mockRequest.params.id);
     expect(mockResponse.status).toHaveBeenCalledWith(500);
-    expect(mockResponse.json).toHaveBeenCalledWith({ error: 'Erro ao buscar post' });
+    expect(mockResponse.json).toHaveBeenCalledWith({ error: 'Erro ao buscar post pelo ID' });
   })
 
 })
@@ -196,7 +196,7 @@ describe('Delete Post', () => {
 
     expect(PostModel.deletePostById).toHaveBeenCalledWith(mockRequest.params.id);
     expect(mockResponse.status).toHaveBeenCalledWith(500);
-    expect(mockResponse.json).toHaveBeenCalledWith({ error: 'Erro ao deletar post' });
+    expect(mockResponse.json).toHaveBeenCalledWith({ error: 'Erro ao excluir post' });
   })
 
 })
@@ -236,7 +236,7 @@ describe('Search Post', () => {
 
     expect(PostModel.searchPosts).toHaveBeenCalledWith([mockRequest.query.term]);
     expect(mockResponse.status).toHaveBeenCalledWith(500);
-    expect(mockResponse.json).toHaveBeenCalledWith({ error: 'Erro na busca' });
+    expect(mockResponse.json).toHaveBeenCalledWith({ error: 'Erro ao buscar os posts que conntenham o termo pesquisado' });
   })
 
 })
