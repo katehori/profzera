@@ -4,13 +4,14 @@ services:
   # PostgreSQL service
   postgresdb:
     container_name: profzera_db
-    image: postgres:latest
+    image: postgres:17.4
+    hostname: ${DB_HOST}
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=Senha123
-      - POSTGRES_DB=profzera_db
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
@@ -26,13 +27,8 @@ services:
     volumes:
       - .:/usr/src/profzera-app
       - /usr/src/app/node_modules
-    environment:
-      - NODE_ENV=development
-      - DB_HOST=localhost
-      - DB_PORT=5432
-      - DB_USER=admin
-      - DB_PASSWORD=Senha123
-      - DB_NAME=profzera_db
+    env_file:
+      - .env
     depends_on:
       - postgresdb
     restart: unless-stopped

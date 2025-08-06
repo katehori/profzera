@@ -1,5 +1,22 @@
 const PostModel = require('../models/Post')
 
+// GET /posts/search
+exports.searchPosts = async (req, res) => {
+  const { term: searchTerm } = req.query;
+  if (!searchTerm || !searchTerm.trim()) return res.status(400).json({
+    error: 'Termo(s) de busca necessário(s)'
+  });
+  try {
+    const keywords = searchTerm.split(' ').filter(Boolean);
+    const results = await PostModel.searchPosts(keywords);
+    res.status(200).json(results);
+  } catch (error) {
+    res.status(500).json({
+      error: 'Erro ao buscar os posts que conntenham o termo pesquisado'
+    });
+  }
+}
+
 // GET /posts
 exports.getAllPosts = async (req, res) => {
   try {
@@ -8,6 +25,20 @@ exports.getAllPosts = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: 'Erro ao buscar todos os posts'
+    });
+  }
+}
+
+// POST /posts
+exports.createPost = async (req, res) => {
+  const { title, content, author } = req.body;
+
+  try {
+    const newPost = await PostModel.createPost({ title, content, author });
+    res.status(201).json(newPost);
+  } catch (error) {
+    res.status(500).json({
+      error: 'Erro ao criar post'
     });
   }
 }
@@ -26,22 +57,7 @@ exports.getPostById = async (req, res) => {
     res.status(200).json(postById);
   } catch (error) {
     res.status(500).json({
-      error: 'Erro ao buscar post'
-    });
-  }
-}
-
-// POST /posts
-exports.createPost = async (req, res) => {
-  const { title, content, author } = req.body;
-
-  try {
-    console.log(title, content, author);
-    const newPost = await PostModel.createPost({ title, content, author });
-    res.status(201).json(newPost);
-  } catch (error) {
-    res.status(500).json({
-      error: 'Erro ao criar post'
+      error: 'Erro ao buscar post pelo ID'
     });
   }
 }
@@ -67,11 +83,11 @@ exports.updatePost = async (req, res) => {
 }
 
 // DELETE /posts/:id
-exports.deletePost = async (req, res) => {
+exports.deletePostById = async (req, res) => {
   const id = req.params.id
 
   try {
-    const post = await PostModel.deletePost(id);
+    const post = await PostModel.deletePostById(id);
 
     if (!post) return res.status(404).json({
       error: 'Post não encontrado'
@@ -80,38 +96,7 @@ exports.deletePost = async (req, res) => {
     res.status(204).send();
   } catch (error) {
     res.status(500).json({
-      error: 'Erro ao deletar post'
+      error: 'Erro ao excluir post'
     });
   }
 }
-
-// GET /posts/search
-// TODO: FIX KNEX
-// exports.searchPosts = async (req, res) => {
-//   try {
-//     const { term: searchTerm } = req.query;
-//     if (!searchTerm) return res.status(400).json({
-//       error: 'Termo de busca necessário'
-//     });
-//
-//     const results = await PostModel.searchPosts(searchTerm);
-//     res.json(results);
-//   } catch (error) {
-//     res.status(500).json({
-//       error: 'Erro na busca'
-//     });
-//   }
-// }
-
-// listAllPosts (ADMIN)
-// TODO: Not used, FIX KNEX
-// exports.listAllPosts = async (req, res) => {
-//   try {
-//     const posts = await PostModel.getAllAdmin();
-//     res.json(posts);
-//   } catch (error) {
-//     res.status(500).json({
-//       error: 'Erro ao buscar posts'
-//     });
-//   }
-// }

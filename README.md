@@ -1,64 +1,67 @@
 # Documentação técnica - Profzera API
 
-O ProfZera é um blog moderno e descomplicado para alunos e professores da rede pública que querem dominar os conteúdos escolares de um jeito prático e digital! 📱💻
+Aplicação backend desenvolvida em Node.js com Express, utilizando PostgreSQL como banco de dados relacional, containerização com Docker para a garantia de consistência entre ambientes.
+Implementação de Swagger/OpenAPI para documentação e testes em Jest.
 
-## 📚 Profzera API
+## Profzera API
 
-**API para gestão de posts de conteúdos educacionais**  
-
-### Pré-requisitos
-
+[![Docker](https://img.shields.io/badge/Docker-blue?logo=docker.js)](https://docs.docker.com)
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green?logo=node.js)](https://nodejs.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17+-blue?logo=postgresql)](https://www.postgresql.org/)
 
----
+**API para gestão de posts de conteúdos educacionais**  
 
-## 🚀 Índice
-1. [Pré-requisitos](#-pre-requisitos)
-2. [Arquitetura](#-arquitetura-da-aplicação)
-3. [Endpoints](#-endpoints)
-4. [Variáveis de Ambiente](#-variáveis-de-ambiente)
-5. [Testes](#-testes)
-6. [Deploy](#-deploy)
-7. [Contribuição](#-contribuição)
-8. [Licença](#-licença)
-9. [Recursos](#-recursos)
+### Cobertura dos testes
+![Statements](./badges_output/statements_chart.svg) ![Branches](./badges_output/branches_chart.svg) ![Functions](./badges_output/functions_chart.svg) ![Lines](./badges_output/lines_chart.svg)
+
 
 ---
 
-## Pré-requisitos
+## Índice
+1. [Requisitos](#requisitos)
+2. [Variáveis de ambiente](#variáveis-de-ambiente)
+3. [Docker](#docker)
+4. [Banco de dados do PostgreSQL](#banco-de-dados-do-postgreSQL)
+5. [Comandos](#comandos)
+6. [Guia de uso das APIs](#guia-de-uso-das-APIs)
+7. [Testes](#testes)
+8. [Documentação](#documentação)
+9. [CI e CD com Deploy em Cloud do Render](#ci-e-cd-com-deploy-em-cloud-do-render)
+10. [Contribuição](#contribuição)
 
+---
+
+### Requisitos
+
+- [Docker](https://docs.docker.com/get-docker/)
 - [Node.js 20+](https://nodejs.org/en/download/)
 - [PostgreSQL 17+](https://www.postgresql.org/download/)
-- [Docker](https://docs.docker.com/get-docker/)
 
-### Instalação
+#### Links auxiliares
+
+| Recurso    | Descrição                  | Link                             |
+|------------|----------------------------|----------------------------------|
+| Node.js    | Runtime JavaScript         | https://nodejs.org/en/docs       |
+| Express    | Framework web para Node.js | https://expressjs.com/           |
+| PostgreSQL | Banco de dados relacional  | https://www.postgresql.org/docs/ |
+
+
 ```bash
-# clone o repositório
-git clone https://github.com/seu-usuario/profzera-backend.git
-cd profzera-backend
+# Clone o repositório do GitHub usando HTTPs, SSH ou GitHub Cli
+git clone https://github.com/katehori/profzera.git
+```
 
-# instale as dependências
-npm install
+---
 
-# configure o ambiente
+### Variáveis de ambiente
+
+```bash
+# Copie o arquivo .env.example para criar as variáveis de ambiente no .env
 cp .env.example .env
 ```
 
-### Banco de Dados
-
-```bash
-# com Docker:
-docker-compose up -d postgresdb
-
-# ou manualmente:
-npx knex migrate:latest
-npx knex seed:run
-```
-
-### Variáveis de ambiente (.env)
-
 Crie um arquivo .env baseado no .env.example:
+
 ```ini
 NODE_ENV=
 NODE_PORT=
@@ -74,122 +77,103 @@ DB_NAME=
 JWT_SECRET=
 ```
 
+---
 
-### Arquitetura da aplicação
+### Docker
 
+- [DockerHub](https://hub.docker.com/repository/docker/katehori/profzera-app/)
+
+Docker Compose para orquestração de serviços:
+
+- Container Node.js (profzera-backend): Aplicação.
+- Container PostgreSQL (postgresdb): Banco de dados.
+
+```bash
+# Para subir o Node.js e PostgreSQL (ambiente completo)
+docker-compose up
+# ou
+docker-compose up -d
+
+# Para subir individualmente
+docker-compose up -d postgresdb_ou_profzera-backend
 ```
-src/
-├── config/          # Configurações globais
-├── controllers/     # Lógica das rotas
-├── models/          # Camada de dados
-├── routes/          # Definição de rotas
-├── middlewares/     # Autenticação/validação
-├── utils/           # Helpers compartilhados
-└── app.js           # App principal
-```
 
-### Tecnologias
-
-#### Pricipais
-
-| Recurso    | Descrição                  | Link                             |
-|------------|----------------------------|----------------------------------|
-| Node.js    | Runtime JavaScript         | https://nodejs.org/en/docs       |
-| Express    | Framework web para Node.js | https://expressjs.com/           |
-| PostgreSQL | Banco de dados relacional  | https://www.postgresql.org/docs/ |
-
-#### Ferramentas de desenvolvimento
+#### Links auxiliares
 
 | Recurso        | Descrição                     | Link                             |
 |----------------|-------------------------------|----------------------------------|
-| Knex.js        | Query Builder para PostgreSQL | https://knexjs.org/              |
 | Docker         | Conteinerização               | https://docs.docker.com/         |
 | Docker Compose | Orquestração de containers    | https://docs.docker.com/compose/ |
 
-#### Autenticação e segurança
 
-| Recurso               | Descrição                              | Link                                 |
-|-----------------------|----------------------------------------|--------------------------------------|
-| JSON Web Tokens (JWT) | Autenticação stateless                 | https://jwt.io/introduction          |
-| Bcrypt                | Hash de senhas                         | https://www.npmjs.com/package/bcrypt |
-| Dotenv                | Gerenciamento de variáveis de ambiente | https://www.npmjs.com/package/dotenv |
 
-#### Testes
+#### Banco de dados do PostgreSQL
 
-| Recurso   | Descrição                              | Link                                    |
-|-----------|----------------------------------------|-----------------------------------------|
-| Jest      | Framework de testes                    | https://jestjs.io/docs/getting-started  |
-| Supertest | Testes de integração HTTP              | https://www.npmjs.com/package/supertest |
-| Dotenv    | Gerenciamento de variáveis de ambiente | https://www.npmjs.com/package/dotenv    |
+```bash
+docker-compose up -d postgresdb
+```
 
-#### Documentação
+---
 
-| Recurso    | Descrição                              | Link                                 |
-|------------|----------------------------------------|--------------------------------------|
-| Swagger UI | Documentação interativa de APIs        | https://swagger.io/tools/swagger-ui/ |
-| OpenAPI    | Especificação de APIs                  | https://www.openapis.org/            |
-| Dotenv     | Gerenciamento de variáveis de ambiente | https://www.npmjs.com/package/dotenv |
+### Comandos
 
-#### Ferramentas auxiliares
+```bash
+# Para instalar as dependências do Node.js
+npm install
 
-| Recurso | Descrição           | Link                     |
-|---------|---------------------|--------------------------|
-| Postman | Teste de APIs       | https://www.postman.com/ |
-| Render  | Hospedagem em cloud | https://render.com/docs  |
-| Git     | Controle de versão  | https://git-scm.com/doc  |
+# Para rodar em desenvolvimento (localhost) usando o Nodemon
+npm run dev
 
-#### Recursos específicos
+# Para build
+npm run build
+```
 
-**Migrations**
-
-[Knex Migrations](https://knexjs.org/guide/migrations.html)
-
-**Configuração do Jest**
-
-[Jest Configuration](https://jestjs.io/docs/configuration)
-
-**Autenticação JWT**
-
-[jsonwebtoken npm](https://www.npmjs.com/package/jsonwebtoken)
-
+---
 
 ### Guia de uso das APIs
 
 #### Endpoints
 
-| Método      | Rota                | Descrição                                 | Autenticação  |
-|-------------|---------------------|------------------------------------------ |---------------|
-| GET         | /posts              | Lista posts públicos (alunos)             | ❌            |
-| GET         | /posts/:id          | Detalhes de um post                       | ❌            |
-| POST        | /posts              | Cria um novo post                         | Professor     |
-| PUT         | /posts/:id          | Atualiza um post                          | Professor     |
-| DELETE      | /posts/:id          | Excluí um post                            | Professor     |
-| GET         | /posts/search?term= | Busca por termo no título ou conteúdo     | ❌            | 
+| Método      | Rota                    | Descrição                                         | Autenticação  |
+|-------------|-------------------------|---------------------------------------------------|---------------|
+| GET         | /api/posts/search?term= | Busca por termo no título ou conteúdo de um post  | ❌            | 
+| GET         | /api/posts              | Lista todos os posts                              | ❌            |
+| POST        | /api/posts              | Cria um novo post                                 | Professor     |
+| GET         | /api/posts/:id          | Lista um post por ID                              | ❌            |
+| PUT         | /api/posts/:id          | Atualiza um post                                  | Professor     |
+| DELETE      | /api/posts/:id          | Excluí um post                                    | Professor     |
 
 #### Exemplo de Request - Criação de um post
 
 ```http
 POST /api/posts  
-Authorization: Bearer <token>  
 Content-Type: application/json  
 
-{ "title": "Título do post", "content": "..." }  
+{ "title": "Título do post", "content": "Conteúdo do post", "author": "Prof. Nome e Sobrenome"  }  
 ```
 
-### Exemplo de Response - Criação de um post (status 201)
+#### Exemplo de Response - Criação de um post (status 201)
 
 ```json
 {  
   "id": 1,  
-  "title": "Título do post",  
-  "author": "Prof. Nome e Sobrenome",  
-  "created_at": "2023-08-20T10:00:00Z"  
+  "title": "Título do post",
+  "content": "Conteúdo do post",  
+  "author": "Prof. Nome e Sobrenome" 
 }  
 ```
 
-🔗 [Documentação completa no Swagger UI](http://localhost:8080/api-docs)
+#### Links auxiliares
+
+| Recurso | Descrição                               | Link                                    |
+|---------|-----------------------------------------|-----------------------------------------|
+| Postman | Teste de APIs                           | https://www.postman.com/                |
+
+---
 
 ### Testes
+
+Jest como framework de testes, com cobertura de Testes unitários (lógica de negócio).
 
 ```bash
 # Executar todos os testes
@@ -202,6 +186,48 @@ npm run test:coverage
 npm test -- PostController.test.js
 ```
 
+#### Links auxiliares
+
+| Recurso   | Descrição                              | Link                                    |
+|-----------|----------------------------------------|-----------------------------------------|
+| Jest      | Framework de testes                    | https://jestjs.io/docs/getting-started  |
+
+
+---
+
+### Documentação
+
+Configuração via `swagger-jsdoc` e `swagger-ui-express`, integrada ao middleware do Express.
+
+[Documentação no Swagger UI](http://localhost:8080/api-docs)
+
+#### Links auxiliares
+
+| Recurso    | Descrição                              | Link                                 |
+|------------|----------------------------------------|--------------------------------------|
+| Swagger UI | Documentação interativa de APIs        | https://swagger.io/tools/swagger-ui/ |
+| OpenAPI    | Especificação de APIs                  | https://www.openapis.org/            |
+
+---
+
+### CI e CD com Deploy em Cloud do Render
+
+Pipeline com testes automatizados (Jest)
+
+Docker build no [DockerHub](https://hub.docker.com/repository/docker/katehori/profzera-app/)
+
+Deploy no [Render](https://profzera.onrender.com)
+
+#### Links auxiliares
+
+| Recurso | Descrição                               | Link                                    |
+|---------|-----------------------------------------|-----------------------------------------|
+| Render  | Hospedagem em cloud                     | https://render.com/docs                 |
+| Git     | Controle de versão                      | https://git-scm.com/doc                 |
+| Dotenv  | Gerenciamento de variáveis de ambiente  | https://www.npmjs.com/package/dotenv    |
+
+---
+
 ### Contribuição
 
 1. Faça um fork do projeto
@@ -209,3 +235,5 @@ npm test -- PostController.test.js
 3. Commit suas mudanças `git commit -m 'Mensagem descrevendo a nova funcionalidade'`
 4. Push para a branch `git push origin feature/nova-funcionalidade`
 5. Abra um Pull Request
+
+---

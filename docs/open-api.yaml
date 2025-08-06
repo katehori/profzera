@@ -1,0 +1,362 @@
+openapi: 3.0.0
+info:
+  title: Swagger Profzera - OpenAPI 3.0
+  description: |-
+    Aplicação backend desenvolvida em Node.js com Express, utilizando PostgreSQL como banco de dados relacional,
+    containerização com Docker para a garantia de consistência entre ambientes.
+    Implementação de Swagger/OpenAPI para documentação e testes em Jest.
+
+    Links:
+    - [GitHub](https://github.com/katehori/profzera)
+    - [DockerHub](https://hub.docker.com/repository/docker/katehori/profzera-app/general)
+    - [RenderCloud](https://profzera.onrender.com/api/posts)
+  termsOfService: https://swagger.io/terms/
+  contact:
+    email: imkatehori@gmail.com
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api/
+tags:
+  - name: Posts
+    description: Endpoints da API de posts
+paths:
+  /posts:
+    get:
+      tags:
+        - post
+      summary: Lista de todos os posts
+      description: Retorna uma lista de todos os posts
+      operationId: getPost
+      responses:
+        '200':
+          description: Sucesso ao retornar todos os posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example:
+                  - id: 1
+                    title: "Primeiro post"
+                    content: "Conteúdo do primeiro post"
+                    author: "Prof. Nome e Sobrenome"
+                  - id: 2
+                    title: "Segundo post"
+                    content: "Conteúdo do segundo post"
+                    author: "Prof. Nome e Sobrenome"
+        default:
+          description: Erro inesperado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro ao buscar todos os posts"
+                  statusCode:
+                    type: integer
+                    example: 500
+    post:
+      tags:
+        - post
+      summary: Cria novo post
+      description: Cria um novo post e retona no response o post que foi criado
+      operationId: createPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - content
+                - author
+              properties:
+                id:
+                  readOnly: true,
+                  type: integer
+                  example: 1
+                title:
+                  type: string
+                  example: Título do post
+                content:
+                  type: string
+                  example: Conteúdo do post
+                author:
+                  type: string
+                  example: Prof. Nome e Sobrenome
+      responses:
+        '201':
+          description: Sucesso ao criar o post
+          content:
+            application/json:
+              schema:  
+                type: object
+                required:
+                  - title
+                  - content
+                  - author
+                properties:
+                  id:
+                    readOnly: true,
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: Título do post
+                  content:
+                    type: string
+                    example: Conteúdo do post
+                  author:
+                    type: string
+                    example: Prof. Nome e Sobrenome
+        default:
+          description: Erro inesperado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro ao criar post"
+                  statusCode:
+                    type: integer
+                    example: 500
+  /posts/{postId}:
+    get:
+      tags:
+        - post
+      summary: Lista um post pelo ID
+      description: Retorna um único post pelo ID
+      operationId: getPostById
+      parameters:
+        - name: postId
+          in: path
+          description: ID do post
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Sucesso ao retornar o post pelo ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    readOnly: true,
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: Título do post
+                  content:
+                    type: string
+                    example: Conteúdo do post
+                  author:
+                    type: string
+                    example: Prof. Nome e Sobrenome
+        '404':
+          description: Post não encontrado
+        default:
+          description: Erro inesperado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro ao buscar post pelo ID"
+                  statusCode:
+                    type: integer
+                    example: 500
+    put:
+      tags:
+        - post
+      summary: Atualiza um post
+      description: Atualiza um post existente pelo ID e retona no response o post que foi atualizado
+      operationId: updatePostById
+      parameters:
+        - name: postId
+          in: path
+          description: ID do post
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - content
+                - author
+              properties:
+                id:
+                  readOnly: true,
+                  type: integer
+                  example: 1
+                title:
+                  type: string
+                  example: Título do post
+                content:
+                  type: string
+                  example: Conteúdo do post
+                author:
+                  type: string
+                  example: Prof. Nome e Sobrenome
+      responses:
+        '201':
+          description: Sucesso ao atualizar o post
+          content:
+            application/json:
+              schema:  
+                type: object
+                required:
+                  - title
+                  - content
+                properties:
+                  id:
+                    readOnly: true,
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: Título do post
+                  content:
+                    type: string
+                    example: Conteúdo do post
+                  author:
+                    readOnly: true,
+                    type: string
+                    example: Prof. Nome e Sobrenome
+        '404':
+          description: Post não encontrado
+        default:
+          description: Erro inesperado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro ao atualizar post"
+                  statusCode:
+                    type: integer
+                    example: 500
+    delete:
+      tags:
+        - post
+      summary: Deleta um post pelo ID
+      description: Deleta um único post pelo ID
+      operationId: deletePostById
+      parameters:
+        - name: postId
+          in: path
+          description: ID do post
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Sucesso ao excluir o post (no content)
+        '404':
+          description: Post não encontrado
+        default:
+          description: Erro inesperado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro ao excluir post"
+                  statusCode:
+                    type: integer
+                    example: 500
+  /posts/search:
+    get:
+      tags:
+        - post
+      summary: Lista um ou mais posts com o termo pesquisado
+      description: Retorna um ou mais posts que contenham o termo pesquisado
+      operationId: searchPostByTerm
+      parameters:
+        - name: term
+          in: query
+          description: Termo de busca
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sucesso ao pesquisar e listar posts que contenham o termo pesquisado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example:
+                  - id: 1
+                    title: "Título com TERMO"
+                    content: "Conteúdo com TERMO"
+                    author: "Prof. Nome e Sobrenome"
+                  - id: 2
+                    title: "Título com TERMO"
+                    content: "Conteúdo com TERMO"
+                    author: "Prof. Nome e Sobrenome"
+        '400':
+          description: Termo(s) de busca necessário(s)
+        default:
+          description: Erro inesperado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro ao buscar os posts que conntenham o termo pesquisado"
+                  statusCode:
+                    type: integer
+                    example: 500
+components:
+  schemas:
+    Post:
+      type: object
+      required:
+        - title
+        - content
+        - author
+      properties:
+        id:
+          readOnly: true,
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Título do post
+        content:
+          type: string
+          example: Conteúdo do post
+        author:
+          type: string
+          example: Prof. Nome e Sobrenome
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Erro ao criar post"
+        statusCode:
+          type: integer
+          example: 500
