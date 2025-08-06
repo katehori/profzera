@@ -60,33 +60,32 @@ git clone https://github.com/katehori/profzera.git
 cp .env.example .env
 ```
 
-Crie um arquivo .env baseado no .env.example:
+Crie um arquivo `.env` baseado no `.env.example`:
 
 ```ini
-NODE_ENV=
-NODE_PORT=
+NODE_ENV=development
+NODE_PORT=8080
 
 # Banco de Dados
-DB_HOST=
-DB_PORT=
-DB_USER=
-DB_PASSWORD=
-DB_NAME=
-
-# Autenticação
-JWT_SECRET=
+# USE 'localhost' IF RUNNING WITHOUT DOCKER COMPOSE
+DB_HOST=profzeradb-hostname
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_NAME=postgresdb
+DB_SCHEMA=public
 ```
 
 ---
 
 ### Docker
 
-- [DockerHub](https://hub.docker.com/repository/docker/katehori/profzera-app/)
+- [DockerHub para as imagens da aplicação](https://hub.docker.com/repository/docker/katehori/profzera-app/)
 
 Docker Compose para orquestração de serviços:
 
-- Container Node.js (profzera-backend): Aplicação.
-- Container PostgreSQL (postgresdb): Banco de dados.
+- Container Node.js (`profzera-backend`): Aplicação.
+- Container PostgreSQL (`postgresdb`): Banco de dados.
 
 ```bash
 # Para subir o Node.js e PostgreSQL (ambiente completo)
@@ -95,7 +94,9 @@ docker-compose up
 docker-compose up -d
 
 # Para subir individualmente
-docker-compose up -d postgresdb_ou_profzera-backend
+docker-compose up -d postgresdb
+# ou
+docker-compose up -d profzera-backend
 ```
 
 #### Links auxiliares
@@ -124,8 +125,8 @@ npm install
 # Para rodar em desenvolvimento (localhost) usando o Nodemon
 npm run dev
 
-# Para build
-npm run build
+# Executar todos os testes
+npm test
 ```
 
 ---
@@ -134,14 +135,14 @@ npm run build
 
 #### Endpoints
 
-| Método      | Rota                    | Descrição                                         | Autenticação  |
-|-------------|-------------------------|---------------------------------------------------|---------------|
-| GET         | /api/posts/search?term= | Busca por termo no título ou conteúdo de um post  | ❌            | 
-| GET         | /api/posts              | Lista todos os posts                              | ❌            |
-| POST        | /api/posts              | Cria um novo post                                 | Professor     |
-| GET         | /api/posts/:id          | Lista um post por ID                              | ❌            |
-| PUT         | /api/posts/:id          | Atualiza um post                                  | Professor     |
-| DELETE      | /api/posts/:id          | Excluí um post                                    | Professor     |
+| Método      | Rota                    | Descrição                                         |
+|-------------|-------------------------|---------------------------------------------------|
+| GET         | /api/posts/search?term= | Busca por termo no título ou conteúdo de um post  |
+| GET         | /api/posts              | Lista todos os posts                              |
+| POST        | /api/posts              | Cria um novo post                                 |
+| GET         | /api/posts/:id          | Lista um post por ID                              |
+| PUT         | /api/posts/:id          | Atualiza um post                                  |
+| DELETE      | /api/posts/:id          | Excluí um post                                    |
 
 #### Exemplo de Request - Criação de um post
 
@@ -197,7 +198,7 @@ npm test -- PostController.test.js
 
 ### Documentação
 
-Configuração via `swagger-jsdoc` e `swagger-ui-express`, integrada ao middleware do Express.
+Configuração via `swagger-ui-express`, integrada ao middleware do Express.
 
 [Documentação no Swagger UI](http://localhost:8080/api-docs)
 
