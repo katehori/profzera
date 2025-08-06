@@ -29,7 +29,7 @@ const attemptDBMigration = async pool => {
       content TEXT NOT NULL,
       author VARCHAR(50) NOT NULL,
       searchable_text TSVECTOR GENERATED ALWAYS AS (
-          to_tsvector('portuguese', title || ' ' || content)
+          to_tsvector('simple', title || ' ' || content)
       ) STORED
     )`);
     if (results) {
