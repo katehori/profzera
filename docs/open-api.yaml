@@ -16,6 +16,7 @@ info:
   version: 1.0.0
 servers:
   - url: http://localhost:8080/api/
+  - url: https://profzera.onrender.com/
 tags:
   - name: Posts
     description: Endpoints da API de posts
@@ -23,7 +24,7 @@ paths:
   /posts:
     get:
       tags:
-        - post
+        - Posts
       summary: Lista de todos os posts
       description: Retorna uma lista de todos os posts
       operationId: getPost
@@ -60,7 +61,7 @@ paths:
                     example: 500
     post:
       tags:
-        - post
+        - Posts
       summary: Cria novo post
       description: Cria um novo post e retona no response o post que foi criado
       operationId: createPost
@@ -128,7 +129,7 @@ paths:
   /posts/{postId}:
     get:
       tags:
-        - post
+        - Posts
       summary: Lista um post pelo ID
       description: Retorna um único post pelo ID
       operationId: getPostById
@@ -177,7 +178,7 @@ paths:
                     example: 500
     put:
       tags:
-        - post
+        - Posts
       summary: Atualiza um post
       description: Atualiza um post existente pelo ID e retona no response o post que foi atualizado
       operationId: updatePostById
@@ -253,7 +254,7 @@ paths:
                     example: 500
     delete:
       tags:
-        - post
+        - Posts
       summary: Deleta um post pelo ID
       description: Deleta um único post pelo ID
       operationId: deletePostById
@@ -285,7 +286,7 @@ paths:
   /posts/search:
     get:
       tags:
-        - post
+        - Posts
       summary: Lista um ou mais posts com o termo pesquisado
       description: Retorna um ou mais posts que contenham o termo pesquisado
       operationId: searchPostByTerm
