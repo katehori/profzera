@@ -5,13 +5,11 @@ Implementação de Swagger/OpenAPI para documentação e testes em Jest.
 
 ## Profzera API
 
-**API para gestão de posts de conteúdos educacionais**  
-
-### Pré-requisitos
-
 [![Docker](https://img.shields.io/badge/Docker-blue?logo=docker.js)](https://docs.docker.com)
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green?logo=node.js)](https://nodejs.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17+-blue?logo=postgresql)](https://www.postgresql.org/)
+
+**API para gestão de posts de conteúdos educacionais**  
 
 ### Cobertura dos testes
 ![Statements](./badges_output/statements_chart.svg) ![Branches](./badges_output/branches_chart.svg) ![Functions](./badges_output/functions_chart.svg) ![Lines](./badges_output/lines_chart.svg)
@@ -27,7 +25,7 @@ Implementação de Swagger/OpenAPI para documentação e testes em Jest.
 5. [Comandos](#comandos)
 6. [Guia de uso das APIs](#guia-de-uso-das-APIs)
 7. [Testes](#testes)
-8. [Documentação](#documentacao)
+8. [Documentação](#documentação)
 9. [CI e CD com Deploy em Cloud do Render](#ci-e-cd-com-deploy-em-cloud-do-render)
 10. [Contribuição](#contribuição)
 
