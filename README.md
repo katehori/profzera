@@ -147,7 +147,6 @@ npm run build
 
 ```http
 POST /api/posts  
-Authorization: Bearer <token>  
 Content-Type: application/json  
 
 { "title": "Título do post", "content": "Conteúdo do post", "author": "Prof. Nome e Sobrenome"  }  
