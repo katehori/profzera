@@ -6,8 +6,9 @@ const requestLogger = require("./config/requestLogger");
 const setupSwagger = require('./config/swagger');
 const migrations = require('./src/migrations');
 
-const postRoutes = require('./src/routes/postRoutes');
 const healthRoutes = require('./src/routes/healthRoutes');
+const postRoutes = require('./src/routes/postRoutes');
+const userRoutes = require('./src/routes/userRoutes');
 const db = require('./src/db');
 
 const app = express();
@@ -21,6 +22,7 @@ setupSwagger(app);
 
 app.use('/api/', healthRoutes)
 app.use('/api/posts', postRoutes)
+app.use('/api/users', userRoutes)
 
 app.listen(PORT, async () => {
   console.log(`Servidor rodando na porta ${PORT}`);

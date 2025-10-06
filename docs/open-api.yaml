@@ -17,55 +17,79 @@ info:
 servers:
   - url: http://localhost:8080/api/
   - url: https://profzera.onrender.com/api/
+
 tags:
+  - name: Health
+    description: Health check endpoints
   - name: Posts
-    description: Endpoints da API de posts
+    description: Blog post management
+  - name: Users
+    description: User management and authentication
+
 paths:
-  /posts:
+  /health:
     get:
+      summary: Health check
+      description: Check if the API and database are running
       tags:
-        - Posts
-      summary: Lista de todos os posts
-      description: Retorna uma lista de todos os posts
-      operationId: getPost
+        - Health
       responses:
         '200':
-          description: Sucesso ao retornar todos os posts
+          description: API and database are healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: OK
+                  db:
+                    type: string
+                    example: Conectado!
+        '500':
+          description: Database connection error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: Error
+                  db:
+                    type: string
+                    example: Desconectado
+
+  /posts:
+    get:
+      summary: Get all posts
+      description: Retrieve all posts with user information
+      tags:
+        - Posts
+      responses:
+        '200':
+          description: Successful operation
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  type: object
-                example:
-                  - id: 1
-                    title: "Primeiro post"
-                    content: "Conteúdo do primeiro post"
-                    author: "Prof. Nome e Sobrenome"
-                  - id: 2
-                    title: "Segundo post"
-                    content: "Conteúdo do segundo post"
-                    author: "Prof. Nome e Sobrenome"
-        default:
-          description: Erro inesperado
+                  $ref: '#/components/schemas/PostWithUser'
+        '500':
+          description: Internal server error
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Erro ao buscar todos os posts"
-                  statusCode:
-                    type: integer
-                    example: 500
+                $ref: '#/components/schemas/Error'
+
     post:
+      summary: Create a new post
+      description: Create a new blog post
       tags:
         - Posts
-      summary: Cria novo post
-      description: Cria um novo post e retona no response o post que foi criado
-      operationId: createPost
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -73,291 +97,483 @@ paths:
               required:
                 - title
                 - content
-                - author
+                - user_id
               properties:
-                id:
-                  readOnly: true,
-                  type: integer
-                  example: 1
                 title:
                   type: string
-                  example: Título do post
+                  description: Post title
                 content:
                   type: string
-                  example: Conteúdo do post
-                author:
-                  type: string
-                  example: Prof. Nome e Sobrenome
-      responses:
-        '201':
-          description: Sucesso ao criar o post
-          content:
-            application/json:
-              schema:  
-                type: object
-                required:
-                  - title
-                  - content
-                  - author
-                properties:
-                  id:
-                    readOnly: true,
-                    type: integer
-                    example: 1
-                  title:
-                    type: string
-                    example: Título do post
-                  content:
-                    type: string
-                    example: Conteúdo do post
-                  author:
-                    type: string
-                    example: Prof. Nome e Sobrenome
-        default:
-          description: Erro inesperado
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Erro ao criar post"
-                  statusCode:
-                    type: integer
-                    example: 500
-  /posts/{postId}:
-    get:
-      tags:
-        - Posts
-      summary: Lista um post pelo ID
-      description: Retorna um único post pelo ID
-      operationId: getPostById
-      parameters:
-        - name: postId
-          in: path
-          description: ID do post
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Sucesso ao retornar o post pelo ID
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    readOnly: true,
-                    type: integer
-                    example: 1
-                  title:
-                    type: string
-                    example: Título do post
-                  content:
-                    type: string
-                    example: Conteúdo do post
-                  author:
-                    type: string
-                    example: Prof. Nome e Sobrenome
-        '404':
-          description: Post não encontrado
-        default:
-          description: Erro inesperado
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Erro ao buscar post pelo ID"
-                  statusCode:
-                    type: integer
-                    example: 500
-    put:
-      tags:
-        - Posts
-      summary: Atualiza um post
-      description: Atualiza um post existente pelo ID e retona no response o post que foi atualizado
-      operationId: updatePostById
-      parameters:
-        - name: postId
-          in: path
-          description: ID do post
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - title
-                - content
-                - author
-              properties:
-                id:
-                  readOnly: true,
+                  description: Post content
+                user_id:
                   type: integer
-                  example: 1
-                title:
-                  type: string
-                  example: Título do post
-                content:
-                  type: string
-                  example: Conteúdo do post
-                author:
-                  type: string
-                  example: Prof. Nome e Sobrenome
+                  description: ID of the user creating the post
       responses:
         '201':
-          description: Sucesso ao atualizar o post
-          content:
-            application/json:
-              schema:  
-                type: object
-                required:
-                  - title
-                  - content
-                properties:
-                  id:
-                    readOnly: true,
-                    type: integer
-                    example: 1
-                  title:
-                    type: string
-                    example: Título do post
-                  content:
-                    type: string
-                    example: Conteúdo do post
-                  author:
-                    readOnly: true,
-                    type: string
-                    example: Prof. Nome e Sobrenome
-        '404':
-          description: Post não encontrado
-        default:
-          description: Erro inesperado
+          description: Post created successfully
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Erro ao atualizar post"
-                  statusCode:
-                    type: integer
-                    example: 500
-    delete:
-      tags:
-        - Posts
-      summary: Deleta um post pelo ID
-      description: Deleta um único post pelo ID
-      operationId: deletePostById
-      parameters:
-        - name: postId
-          in: path
-          description: ID do post
-          required: true
-          schema:
-            type: integer
-      responses:
-        '204':
-          description: Sucesso ao excluir o post (no content)
-        '404':
-          description: Post não encontrado
-        default:
-          description: Erro inesperado
+                $ref: '#/components/schemas/Post'
+        '400':
+          description: Bad request - missing or invalid data
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Erro ao excluir post"
-                  statusCode:
-                    type: integer
-                    example: 500
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /posts/search:
     get:
+      summary: Search posts
+      description: Search posts by keywords using full-text search
       tags:
         - Posts
-      summary: Lista um ou mais posts com o termo pesquisado
-      description: Retorna um ou mais posts que contenham o termo pesquisado
-      operationId: searchPostByTerm
       parameters:
         - name: term
           in: query
-          description: Termo de busca
           required: true
+          description: Search keywords
           schema:
             type: string
       responses:
         '200':
-          description: Sucesso ao pesquisar e listar posts que contenham o termo pesquisado
+          description: Successful operation
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  type: object
-                example:
-                  - id: 1
-                    title: "Título com TERMO"
-                    content: "Conteúdo com TERMO"
-                    author: "Prof. Nome e Sobrenome"
-                  - id: 2
-                    title: "Título com TERMO"
-                    content: "Conteúdo com TERMO"
-                    author: "Prof. Nome e Sobrenome"
+                  $ref: '#/components/schemas/PostWithUser'
         '400':
-          description: Termo(s) de busca necessário(s)
-        default:
-          description: Erro inesperado
+          description: Bad request - missing search term
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Erro ao buscar os posts que conntenham o termo pesquisado"
-                  statusCode:
-                    type: integer
-                    example: 500
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /posts/{id}:
+    get:
+      summary: Get post by ID
+      description: Retrieve a specific post by its ID
+      tags:
+        - Posts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Post ID
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostWithUser'
+        '404':
+          description: Post not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      summary: Update a post
+      description: Update an existing post
+      tags:
+        - Posts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Post ID
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - content
+              properties:
+                title:
+                  type: string
+                  description: Updated post title
+                content:
+                  type: string
+                  description: Updated post content
+      responses:
+        '200':
+          description: Post updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '400':
+          description: Bad request - missing or invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete a post
+      description: Delete a post by ID
+      tags:
+        - Posts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Post ID
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Post deleted successfully
+        '404':
+          description: Post not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /users:
+    get:
+      summary: Get all users
+      description: Retrieve all users
+      tags:
+        - Users
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      summary: Create a new user
+      description: Create a new user account
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+                - type
+              properties:
+                username:
+                  type: string
+                  description: Username
+                password:
+                  type: string
+                  description: Password
+                type:
+                  type: integer
+                  description: User type (0-2)
+                  minimum: 0
+                  maximum: 2
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request - missing or invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Username already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /users/login:
+    post:
+      summary: User login
+      description: Authenticate user and return user information
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                  description: Username
+                password:
+                  type: string
+                  description: Password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request - missing credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /users/{id}:
+    get:
+      summary: Get user by ID
+      description: Retrieve a specific user by ID
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: User ID
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      summary: Update user password
+      description: Update user password
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: User ID
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - password
+              properties:
+                password:
+                  type: string
+                  description: New password
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request - missing password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete a user
+      description: Delete a user by ID
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: User ID
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: User deleted successfully
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
 components:
   schemas:
     Post:
       type: object
-      required:
-        - title
-        - content
-        - author
       properties:
         id:
-          readOnly: true,
           type: integer
-          example: 1
+          description: Post ID
         title:
           type: string
-          example: Título do post
+          description: Post title
         content:
           type: string
-          example: Conteúdo do post
-        author:
+          description: Post content
+        user_id:
+          type: integer
+          description: User ID who created the post
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: User ID
+        username:
           type: string
-          example: Prof. Nome e Sobrenome
+          description: Username
+        type:
+          type: integer
+          description: User type (0-2)
+
+    PostWithUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Post ID
+        title:
+          type: string
+          description: Post title
+        content:
+          type: string
+          description: Post content
+        user_id:
+          type: integer
+          description: User ID who created the post
+        username:
+          type: string
+          description: Username of the post author
+        type:
+          type: integer
+          description: User type of the post author
+
     Error:
       type: object
       properties:
         error:
           type: string
-          example: "Erro ao criar post"
-        statusCode:
-          type: integer
-          example: 500
+          description: Error message
