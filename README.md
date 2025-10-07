@@ -9,7 +9,7 @@ Implementação de Swagger/OpenAPI para documentação e testes em Jest.
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green?logo=node.js)](https://nodejs.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17+-blue?logo=postgresql)](https://www.postgresql.org/)
 
-**API para gestão de posts de conteúdos educacionais**  
+**API para gestão de publicações de conteúdos educacionais**  
 
 ### Cobertura dos testes
 ![Statements](./badges_output/statements_chart.svg) ![Branches](./badges_output/branches_chart.svg) ![Functions](./badges_output/functions_chart.svg) ![Lines](./badges_output/lines_chart.svg)
@@ -135,14 +135,14 @@ npm test
 
 #### Endpoints
 
-| Método      | Rota                    | Descrição                                         |
-|-------------|-------------------------|---------------------------------------------------|
-| GET         | /api/posts/search?term= | Busca por termo no título ou conteúdo de um post  |
-| GET         | /api/posts              | Lista todos os posts                              |
-| POST        | /api/posts              | Cria um novo post                                 |
-| GET         | /api/posts/:id          | Lista um post por ID                              |
-| PUT         | /api/posts/:id          | Atualiza um post                                  |
-| DELETE      | /api/posts/:id          | Excluí um post                                    |
+| Método      | Rota                    | Descrição                                                |
+|-------------|-------------------------|----------------------------------------------------------|
+| GET         | /api/posts/search?term= | Busca por termo no título ou conteúdo de uma publicação  |
+| GET         | /api/posts              | Lista todas as publicações                               |
+| POST        | /api/posts              | Cria uma nova publicação                                 |
+| GET         | /api/posts/:id          | Lista uma publicação por ID                              |
+| PUT         | /api/posts/:id          | Atualiza uma publicação                                  |
+| DELETE      | /api/posts/:id          | Excluí uma publicação                                    |
 
 #### Exemplo de Request - Criação de um post
 
