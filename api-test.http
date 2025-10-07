@@ -48,7 +48,7 @@ Content-Type: application/json
 {
   "title": "Olá Mundo",
   "content": "Esse é um teste inicial",
-  "user_id": 1
+  "userId": 1
 }
 
 ### Send GET request to get post by id

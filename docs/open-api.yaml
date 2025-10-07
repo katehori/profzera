@@ -97,7 +97,7 @@ paths:
               required:
                 - title
                 - content
-                - user_id
+                - userId
               properties:
                 title:
                   type: string
@@ -105,7 +105,7 @@ paths:
                 content:
                   type: string
                   description: Post content
-                user_id:
+                userId:
                   type: integer
                   description: ID of the user creating the post
       responses:
@@ -532,7 +532,7 @@ components:
         content:
           type: string
           description: Post content
-        user_id:
+        userId:
           type: integer
           description: User ID who created the post
 
@@ -561,7 +561,7 @@ components:
         content:
           type: string
           description: Post content
-        user_id:
+        userId:
           type: integer
           description: User ID who created the post
         username:

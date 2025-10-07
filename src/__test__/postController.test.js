@@ -94,7 +94,7 @@ describe('Create Post', () => {
     mockRequest.body = {
       title: 'title',
       content: 'content',
-      user_id: 1,
+      userId: 1,
     };
   });
 
@@ -105,7 +105,7 @@ describe('Create Post', () => {
 
     await postController.createPost(mockRequest, mockResponse);
 
-    expect(UserModel.getUserById).toHaveBeenCalledWith(mockRequest.body.user_id);
+    expect(UserModel.getUserById).toHaveBeenCalledWith(mockRequest.body.userId);
     expect(PostModel.createPost).toHaveBeenCalledWith(mockRequest.body);
     expect(mockResponse.status).toHaveBeenCalledWith(201);
     expect(mockResponse.json).toHaveBeenCalledWith(mockPostInDB);
@@ -127,7 +127,7 @@ describe('Create Post', () => {
 
     await postController.createPost(mockRequest, mockResponse);
 
-    expect(UserModel.getUserById).toHaveBeenCalledWith(mockRequest.body.user_id);
+    expect(UserModel.getUserById).toHaveBeenCalledWith(mockRequest.body.userId);
     expect(PostModel.createPost).toHaveBeenCalledTimes(0);
     expect(mockResponse.status).toHaveBeenCalledWith(400);
     expect(mockResponse.json).toHaveBeenCalledWith({ error: userErrors.NOT_FOUND });
@@ -139,7 +139,7 @@ describe('Create Post', () => {
 
     await postController.createPost(mockRequest, mockResponse);
 
-    expect(UserModel.getUserById).toHaveBeenCalledWith(mockRequest.body.user_id);
+    expect(UserModel.getUserById).toHaveBeenCalledWith(mockRequest.body.userId);
     expect(PostModel.createPost).toHaveBeenCalledWith(mockRequest.body);
     expect(mockResponse.status).toHaveBeenCalledWith(500);
     expect(mockResponse.json).toHaveBeenCalledWith({ error: postErrors.CREATE_ERROR });

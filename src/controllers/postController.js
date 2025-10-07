@@ -30,16 +30,16 @@ exports.getAllPosts = async (req, res) => {
 
 // POST /posts
 exports.createPost = async (req, res) => {
-  const { title, content, user_id } = req.body;
+  const { title, content, userId } = req.body;
 
-  if (!title?.trim() || !content?.trim() || user_id == null)
+  if (!title?.trim() || !content?.trim() || userId == null)
     return res.status(400).json({ error: postErrors.MISSING_CREATE_DATA })
 
-  if (!await UserModel.getUserById(user_id))
+  if (!await UserModel.getUserById(userId))
     return res.status(400).json({ error: userErrors.NOT_FOUND })
 
   try {
-    const newPost = await PostModel.createPost({ title, content, user_id });
+    const newPost = await PostModel.createPost({ title, content, userId });
     res.status(201).json(newPost);
   } catch (error) {
     res.status(500).json({ error: postErrors.CREATE_ERROR });

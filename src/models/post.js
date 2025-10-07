@@ -4,7 +4,7 @@ const Post = {
   // GET /posts/search
   searchPosts: async keywords => {
     const result = await db.query(`
-      SELECT p.id, p.title, p.content, p.user_id, u.username, u.type
+      SELECT p.id, p.title, p.content, p.user_id as userId, u.username, u.type
       FROM posts p
       JOIN users u 
           ON p.user_id = u.id
@@ -17,7 +17,7 @@ const Post = {
   // GET /posts
   getAllPosts: async () => {
     const result = await db.query(`
-      SELECT p.id, p.title, p.content, p.user_id, u.username, u.type
+      SELECT p.id, p.title, p.content, p.user_id as userId, u.username, u.type
       FROM posts p 
       JOIN users u
           ON p.user_id = u.id
@@ -27,12 +27,12 @@ const Post = {
   },
 
   // POST /posts
-  createPost: async ({ title, content, user_id }) => {
+  createPost: async ({ title, content, userId }) => {
     const result = await db.query(`
       INSERT INTO posts (title, user_id, content)
       VALUES ($1, $2, $3) 
-      RETURNING *`,
-      [title, user_id, content]
+      RETURNING id, title, content, user_id as userId`,
+      [title, userId, content]
     );
     return result.rows[0] ?? null;
   },
@@ -40,7 +40,7 @@ const Post = {
   // GET /posts/:id
   getPostById: async id => {
     const result = await db.query(`
-      SELECT p.id, p.title, p.content, p.user_id, u.username, u.type
+      SELECT p.id, p.title, p.content, p.user_id as userId, u.username, u.type
       FROM posts p
       JOIN users u
           ON p.user_id = u.id
@@ -56,7 +56,7 @@ const Post = {
       UPDATE posts 
       SET title = $1, content = $2 
       WHERE id = $3 
-      RETURNING *`,
+      RETURNING id, title, content, user_id as userId`,
       [title, content, id]
     );
     return result.rows[0] ?? null;
